@@ -6,7 +6,8 @@ const fundAccount = async accounts =>
     accounts.map( 
       async account => 
         await axios.get('/friendbot', {
-          baseURL: 'https://horizon-testnet.stellar.org',
+          // baseURL: 'https://horizon-testnet.stellar.org',
+          baseURL: 'http://127.0.0.1:8000',
           params: { addr: account.publicKey }
         })
     )
