@@ -1,7 +1,7 @@
 const {
   accounts: { issuer, distributor },
   serverUrl
-} = require("../config.json");
+} = require("../../config.json");
 const { Server, Networks, Asset, TransactionBuilder, Operation, Keypair } = require("stellar-sdk");
 
 const server = new Server(serverUrl);

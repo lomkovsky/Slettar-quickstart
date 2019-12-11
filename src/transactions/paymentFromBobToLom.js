@@ -1,5 +1,5 @@
 const Stellar = require('stellar-sdk');
-const accounts = require('../accounts');
+const accounts = require('../../accounts');
 const { TimeoutInfinite } = require('stellar-base');
 const server = new Stellar.Server('https://horizon-testnet.stellar.org');
 // const server = new Stellar.Server('http://127.0.0.1:8000');
@@ -11,7 +11,7 @@ const runTransaction = async (lomPubKey, bobSecret, bobPubKey) => {
   const paymentToLom = {
     destination: lomPubKey,
     asset: Stellar.Asset.native(),
-    amount: '100'
+    amount: '500'
   };
   const bobAccount = await server.loadAccount(bobPubKey);
   console.log('lom publicKey ', lomPubKey);

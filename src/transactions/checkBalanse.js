@@ -1,5 +1,5 @@
 const Stellar = require('stellar-sdk');
-const accounts = require('../accounts');
+const accounts = require('../../accounts');
 const util = require('util');
 
 const server = new Stellar.Server('https://horizon-testnet.stellar.org');

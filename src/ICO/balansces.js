@@ -1,7 +1,7 @@
 const {
   accounts: { issuer, distributor, buyer },
   serverUrl
-} = require("../config.json");
+} = require("../../config.json");
 const { Server } = require("stellar-sdk");
 
 const displayTemplate = ({ name, accountId, balances }) => {

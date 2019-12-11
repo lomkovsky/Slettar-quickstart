@@ -1,5 +1,5 @@
 const axios = require('axios');
-const accounts = require('../accounts');
+const accounts = require('../../accounts');
 
 const fundAccount = async accounts => 
   await Promise.all( 

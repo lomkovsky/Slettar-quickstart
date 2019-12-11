@@ -1,25 +1,25 @@
 const {
   accounts: { issuer, distributor },
   serverUrl
-} = require("../config.json");
+} = require("../../config.json");
 const { Server, Networks, Asset, TransactionBuilder, Operation, Keypair } = require("stellar-sdk");
 
 const server = new Server(serverUrl);
 
 const main = async () => {
   const issuerAccount = await server.loadAccount(issuer.publicKey);
-  const breadAsset = new Asset('BRD', issuer.publicKey);
   const txOptions = {
     fee: await server.fetchBaseFee(),
     networkPassphrase: Networks.TESTNET
   };
-  const paymentOpts =  {
-    asset: breadAsset,
-    destination: distributor.publicKey,
-    amount: '1000'
+  const thresholds = {
+    masterWeight: 0, // issuing account private key signature counts for 0, no rights
+    lowThreshold: 0,
+    medThreshold: 0,
+    highThreshold: 0 // no more transaction on this account anymore !!!
   };
   const transaction = new TransactionBuilder(issuerAccount, txOptions)
-  .addOperation(Operation.payment(paymentOpts))
+  .addOperation(Operation.setOptions(thresholds))
   .setTimeout(0)
   .build();
   transaction.sign(Keypair.fromSecret(issuer.secret));

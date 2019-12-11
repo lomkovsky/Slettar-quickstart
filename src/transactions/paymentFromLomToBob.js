@@ -1,5 +1,5 @@
 const Stellar = require("stellar-sdk");
-const accounts = require("../accounts");
+const accounts = require("../../accounts");
 const { TimeoutInfinite } = require('stellar-base');
 const [lom, bob] = accounts;
 
@@ -20,7 +20,7 @@ const lomPaymentToBob = async (lomPubKey, lomSecret, bobPubKey, bobSecret) => {
   console.log('bob publicKey ', bobPubKey);
   const transaction = new Stellar.TransactionBuilder(lomAccount, txOptions)
     .addOperation(Stellar.Operation.payment(paymentToBob))
-    .setTimeout(0)
+    .setTimeout(TimeoutInfinite)
     .build();
   transaction.sign(Stellar.Keypair.fromSecret(lomSecret));
   transaction.sign(Stellar.Keypair.fromSecret(bobSecret));

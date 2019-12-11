@@ -1,39 +1,34 @@
 const {
-  accounts: { issuer, distributor, buyer },
+  accounts: { issuer, distributor },
   serverUrl
-} = require("../config.json");
+} = require("../../config.json");
 const { Server, Networks, Asset, TransactionBuilder, Operation, Keypair } = require("stellar-sdk");
 
 const server = new Server(serverUrl);
 
 const main = async () => {
-  const buyerAccount = await server.loadAccount(buyer.publicKey);
+  const distributorAccount = await server.loadAccount(distributor.publicKey);
   const breadAsset = new Asset('BRD', issuer.publicKey);
   const txOptions = {
     fee: await server.fetchBaseFee(),
     networkPassphrase: Networks.TESTNET
   };
-  const changeTrustOpts = {
-    asset: breadAsset,
-    limit: '500'
-  };
   const manageSellOfferOpts = {
-    selling: Asset.native(),
-    buying: breadAsset,
-    amount: '1',
-    price: '1'
+    selling: breadAsset,
+    buying: Asset.native(),
+    amount: '1000',
+    price: '1.00000000'
   };
-  const transaction = new TransactionBuilder(buyerAccount, txOptions)
-  .addOperation(Operation.changeTrust(changeTrustOpts))
+  const transaction = new TransactionBuilder(distributorAccount, txOptions)
   .addOperation(Operation.manageSellOffer(manageSellOfferOpts))
   .setTimeout(0)
   .build();
-  transaction.sign(Keypair.fromSecret(buyer.secret));
+  transaction.sign(Keypair.fromSecret(distributor.secret));
   await server.submitTransaction(transaction);
 };
 main()
 .then(() => console.log('OK'))
 .catch(e => {
-  console.log(e.response.data.extras.result_codes);
+  console.log(e);
   throw e;
 });
